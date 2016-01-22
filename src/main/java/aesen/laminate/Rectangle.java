@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import com.google.common.base.Objects;
 
 /**
- * Specifies a bound on a 2D plane, with a position and size.
+ * Specifies a bound on a two-dimensional plane, with a position and size.
  * <p>
  * Most javadocs on this class use an X11-esque geometry format for describing
  * rectangles, in format 

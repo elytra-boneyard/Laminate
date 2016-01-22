@@ -1,4 +1,6 @@
-package aesen.laminate;
+package aesen.laminate.component;
+
+import aesen.laminate.Rectangle;
 
 /**
  * The base of all Laminate components. Doesn't do anything on it's
