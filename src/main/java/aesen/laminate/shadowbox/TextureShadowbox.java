@@ -25,7 +25,7 @@ public class TextureShadowbox extends Shadowbox {
 	
 	/**
 	 * Creates a TextureShadowbox with the given background texture.
-	 * @param resloc the texture to use
+	 * @param texture the texture to use
 	 */
 	public TextureShadowbox(ResourceLocation texture) {
 		this.texture = texture;

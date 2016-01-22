@@ -6,6 +6,7 @@ import aesen.laminate.Laminate;
 import aesen.laminate.screen.Screen;
 import aesen.laminate.shadowbox.EndShadowbox;
 import aesen.laminate.shadowbox.PanoramaShadowbox;
+import aesen.laminate.shadowbox.SolidShadowbox;
 import aesen.laminate.shadowbox.TextureShadowbox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -53,6 +54,10 @@ public class LaminateMod {
 			} else if (Keyboard.isKeyDown(Keyboard.KEY_T)) {
 				Screen screen = new Screen();
 				screen.setShadowbox(new TextureShadowbox());
+				Laminate.display(screen);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
+				Screen screen = new Screen();
+				screen.setShadowbox(new SolidShadowbox(1, 0.5f, 0));
 				Laminate.display(screen);
 			}
 		} else if (e.phase == Phase.END) {
