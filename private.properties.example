@@ -1,0 +1,4 @@
+scpHost=my.awesome.vps.interserver.net
+scpPath=/home/me/my.awesome.website/my/maven/repo
+scpUser=me
+scpPass=P4$$W0RD

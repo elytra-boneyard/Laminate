@@ -1,0 +1,16 @@
+[
+{
+  "modid": "laminate",
+  "name": "Laminate",
+  "description": "An awesome open source GUI framework for Minecraft Forge, designed to be simple to use, but still powerful.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/unascribed/Laminate",
+  "updateUrl": "",
+  "authorList": ["Aesen \"unascribed\" Vismea"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
