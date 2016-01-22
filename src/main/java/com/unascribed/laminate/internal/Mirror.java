@@ -9,6 +9,10 @@ class Mirror extends GuiScreen {
 		this.screen = screen;
 	}
 	
+	public Screen getScreen() {
+		return screen;
+	}
+	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		screen.renderShadowbox(partialTicks);

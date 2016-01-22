@@ -74,4 +74,11 @@ public class LaminateMod {
 	public static GuiScreen createMirror(Screen screen) {
 		return new Mirror(screen);
 	}
+
+	public static Screen unwrapMirror(GuiScreen screen) {
+		if (screen instanceof Mirror) {
+			return ((Mirror)screen).getScreen();
+		}
+		return null;
+	}
 }

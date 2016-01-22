@@ -3,6 +3,7 @@ package aesen.laminate;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.unascribed.laminate.internal.LaminateMod;
 
 import aesen.laminate.screen.Screen;
 import net.minecraft.client.Minecraft;
@@ -70,6 +71,7 @@ public class Laminate {
 	}
 	
 	
+	
 	/**
 	 * Sets the passed Screen as the currently displaying GUI, therefore
 	 * clearing the overlay stack and closing the current GUI, be it a
@@ -89,6 +91,19 @@ public class Laminate {
 		Minecraft.getMinecraft().displayGuiScreen(screen);
 	}
 
+	
+	
+	/**
+	 * Get the currently displaying GUI as a Screen, or null if it is a
+	 * vanilla GuiScreen.
+	 * @return the currently displaying Screen
+	 */
+	public static Screen getCurrentScreen() {
+		return LaminateMod.unwrapMirror(Minecraft.getMinecraft().currentScreen);
+	}
+	
+	
+	
 	/**
 	 * Get the width of the current GUI, avoiding extra object creation if possible.
 	 */
