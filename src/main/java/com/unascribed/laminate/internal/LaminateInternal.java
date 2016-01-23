@@ -7,6 +7,10 @@ import org.lwjgl.input.Keyboard;
 import com.unascribed.laminate.internal.gl.DirectGLAccess;
 import com.unascribed.laminate.internal.gl.GLAccess;
 import com.unascribed.laminate.internal.gl.StateManagerGLAccess;
+import com.unascribed.laminate.internal.tessellator.OldTessellatorAccess;
+import com.unascribed.laminate.internal.tessellator.SplitTessellatorAccess;
+import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
+import com.unascribed.laminate.internal.tessellator.VertexBuilderTessellatorAccess;
 
 import aesen.laminate.Laminate;
 import aesen.laminate.screen.Screen;
@@ -17,57 +21,53 @@ import aesen.laminate.shadowbox.TextureShadowbox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 /**
  * <b>Internal class. Do not use.</b>
  *
  */
-@Mod(
-	modid="laminate",
-	name="Laminate",
-	version="0.1",
-	clientSideOnly=true,
-	acceptableRemoteVersions="*",
-	acceptedMinecraftVersions="1.7.10,1.8,1.8.8,1.8.9"
-	)
-public class LaminateMod {
+public class LaminateInternal implements LaminateCore {
 	public static int globalPanoramaTimer;
 	private static GLAccess gl;
+	private static TessellatorAccess tess;
 	public static Logger log;
 	
-	@EventHandler
-	private void onPreInit(FMLPreInitializationEvent e) {
+	@Override
+	public void preInit() {
 		log = LogManager.getLogger("Laminate");
 		try {
 			Class.forName("net.minecraft.client.renderer.GlStateManager");
-			log.info("Using GlStateManager");
+			log.info("Using GlStateManager (>= 1.8)");
 			gl = new StateManagerGLAccess();
 		} catch (Exception ex) {
-			log.info("Using direct GL");
+			log.info("Using direct GL (< 1.8)");
 			gl = new DirectGLAccess();
+		}
+		try {
+			Class<?> tessClazz = Class.forName("net.minecraft.client.renderer.Tessellator");
+			try {
+				tessClazz.getMethod("addVertex", double.class, double.class, double.class);
+				log.info("Using OldTessellatorAccess (<= 1.7)");
+				tess = new OldTessellatorAccess();
+			} catch (Exception ex) {
+				Class<?> wrClazz = Class.forName("net.minecraft.client.renderer.WorldRenderer");
+				try {
+					wrClazz.getMethod("addVertex", double.class, double.class, double.class);
+					log.info("Using SplitTessellatorAccess (1.8)");
+					tess = new SplitTessellatorAccess();
+				} catch (Exception e) {
+					log.info("Using VertexBuilderTessellatorAccess (>= 1.8.8)");
+					tess = new VertexBuilderTessellatorAccess();
+				}
+			}
+		} catch (Exception ex) {
+			log.error("Can't find any tessellator!");
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
-	@EventHandler
-	private void onInit(FMLInitializationEvent e) {
-		FMLCommonHandler.instance().bus().register(this); // for 1.7.10 compat
-		MinecraftForge.EVENT_BUS.register(this);
-	}
-	
-	@SubscribeEvent
-	public void onTick(ClientTickEvent e) {
-		if (e.phase == Phase.START) {
+	@Override
+	public void tick(boolean start) {
+		if (start) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_P)) {
 				Screen screen = new Screen();
 				screen.setShadowbox(new PanoramaShadowbox());
@@ -85,12 +85,10 @@ public class LaminateMod {
 				screen.setShadowbox(new SolidShadowbox(1, 0.5f, 0));
 				Laminate.display(screen);
 			}
-		} else if (e.phase == Phase.END) {
+		} else {
 			GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
 			if (currentScreen instanceof GuiMainMenu) {
 				((GuiMainMenu)Minecraft.getMinecraft().currentScreen).panoramaTimer = globalPanoramaTimer;
-			} else if (currentScreen != null && currentScreen.getClass().getCanonicalName().equals("lumien.custommainmenu.gui.GuiCustom")) {
-				ReflectionHelper.setPrivateValue((Class<GuiScreen>)currentScreen.getClass(), currentScreen, globalPanoramaTimer, "panoramaTimer");
 			}
 			globalPanoramaTimer++;
 		}
@@ -109,5 +107,9 @@ public class LaminateMod {
 	
 	public static GLAccess gl() {
 		return gl;
+	}
+	
+	public static TessellatorAccess tess() {
+		return tess;
 	}
 }

@@ -1,0 +1,48 @@
+buildscript {
+	repositories {
+		mavenCentral()
+		jcenter()
+		maven {
+			name = "forge"
+			url = "http://files.minecraftforge.net/maven"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+		classpath 'me.tatarka:gradle-retrolambda:3.2.0'
+	}
+}
+
+apply plugin: 'forge'
+apply plugin: 'me.tatarka.retrolambda'
+
+group = "com.unascribed"
+archivesBaseName = "LaminateOneSeven"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+retrolambda {
+	javaVersion JavaVersion.VERSION_1_6
+}
+
+repositories {
+	maven {
+		name = 'sonatype-nexus'
+		url = 'https://oss.sonatype.org/content/repositories/public/'
+	}
+}
+
+dependencies {
+	compile files('../../common/build/libs/LaminateCommon.jar')
+}
+
+minecraft {
+	version = "1.7.10-10.13.4.1614-1.7.10"
+	mappings = "snapshot_20140925"
+	runDir = "minecraft"
+}

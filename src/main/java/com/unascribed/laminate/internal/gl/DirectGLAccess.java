@@ -11,7 +11,7 @@ public class DirectGLAccess implements GLAccess {
 
 	@Override
 	public void pushAttrib() {
-		GL11.glPushAttrib(8256); // WOO MAGIC NUMBERS
+		GL11.glPushAttrib(GL11.GL_ENABLE_BIT | GL11.GL_LIGHTING_BIT);
 	}
 
 	@Override
@@ -338,5 +338,4 @@ public class DirectGLAccess implements GLAccess {
 	public void callList(int list) {
 		GL11.glCallList(list);
 	}
-	
 }

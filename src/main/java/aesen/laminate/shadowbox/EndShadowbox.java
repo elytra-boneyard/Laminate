@@ -4,13 +4,11 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
-import com.unascribed.laminate.internal.LaminateMod;
+import com.unascribed.laminate.internal.LaminateInternal;
+import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
 
 import aesen.laminate.Laminate;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -41,7 +39,7 @@ public class EndShadowbox extends Shadowbox {
 
 		float div = (float) width / height;
 
-		LaminateMod.gl().disableLighting();
+		LaminateInternal.gl().disableLighting();
 		consistentRandom.setSeed(31100L);
 
 		for (int layer = 0; layer < 16; ++layer) {
@@ -51,40 +49,39 @@ public class EndShadowbox extends Shadowbox {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
 				scale = 1.125F;
-				LaminateMod.gl().enableBlend();
-				LaminateMod.gl().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				LaminateInternal.gl().enableBlend();
+				LaminateInternal.gl().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortal);
 
 				if (layer == 1) {
-					LaminateMod.gl().enableBlend();
-					LaminateMod.gl().blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+					LaminateInternal.gl().enableBlend();
+					LaminateInternal.gl().blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 					scale = 0.2F;
 				}
 			}
 
-			LaminateMod.gl().matrixMode(GL11.GL_TEXTURE);
-			LaminateMod.gl().pushMatrix();
-			LaminateMod.gl().loadIdentity();
+			LaminateInternal.gl().matrixMode(GL11.GL_TEXTURE);
+			LaminateInternal.gl().pushMatrix();
+			LaminateInternal.gl().loadIdentity();
 
-			LaminateMod.gl().translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
-			LaminateMod.gl().scale(scale, scale, 1F);
-			LaminateMod.gl().scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
-			LaminateMod.gl().translate(0.5F, 0.5F, 0F);
-			LaminateMod.gl().rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
+			LaminateInternal.gl().translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
+			LaminateInternal.gl().scale(scale, scale, 1F);
+			LaminateInternal.gl().scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
+			LaminateInternal.gl().translate(0.5F, 0.5F, 0F);
+			LaminateInternal.gl().rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
 
-			LaminateMod.gl().translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
-			LaminateMod.gl().translate(0.5F * div, 0.5F, 0F);
-			LaminateMod.gl().scale(4F * portalScale, 4F * portalScale, 1F);
-			LaminateMod.gl().translate(-0.5F * div, -0.5F, 0F);
+			LaminateInternal.gl().translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
+			LaminateInternal.gl().translate(0.5F * div, 0.5F, 0F);
+			LaminateInternal.gl().scale(4F * portalScale, 4F * portalScale, 1F);
+			LaminateInternal.gl().translate(-0.5F * div, -0.5F, 0F);
 
-			LaminateMod.gl().scale(div, 1F, 1F);
+			LaminateInternal.gl().scale(div, 1F, 1F);
 
-			Tessellator tessellator = Tessellator.getInstance();
-			WorldRenderer wr = tessellator.getWorldRenderer();
-			wr.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_COLOR);
+			TessellatorAccess tess = LaminateInternal.tess();
+			tess.begin(GL11.GL_QUADS, TessellatorAccess.Format.POSITION_TEX_COLOR);
 
 			float red = consistentRandom.nextFloat() * 0.5F + 0.1F;
 			float green = consistentRandom.nextFloat() * 0.5F + 0.4F;
@@ -96,16 +93,16 @@ public class EndShadowbox extends Shadowbox {
 			float g = green * colorMultiplier;
 			float b = blue * colorMultiplier;
 
-			wr.pos(0, height, 0D).tex(0D, 1D).color(r, g, b, 1).endVertex();
-			wr.pos(width, height, 0D).tex(1D, 1D).color(r, g, b, 1).endVertex();
-			wr.pos(width, 0, 0D).tex(1D, 0D).color(r, g, b, 1).endVertex();
-			wr.pos(0, 0, 0D).tex(0D, 0D).color(r, g, b, 1).endVertex();
-			tessellator.draw();
-			LaminateMod.gl().popMatrix();
-			LaminateMod.gl().matrixMode(GL11.GL_MODELVIEW);
+			tess.pos(0, height, 0D).tex(0D, 1D).color(r, g, b, 1).endVertex();
+			tess.pos(width, height, 0D).tex(1D, 1D).color(r, g, b, 1).endVertex();
+			tess.pos(width, 0, 0D).tex(1D, 0D).color(r, g, b, 1).endVertex();
+			tess.pos(0, 0, 0D).tex(0D, 0D).color(r, g, b, 1).endVertex();
+			tess.draw();
+			LaminateInternal.gl().popMatrix();
+			LaminateInternal.gl().matrixMode(GL11.GL_MODELVIEW);
 		}
 
-		LaminateMod.gl().disableBlend();
+		LaminateInternal.gl().disableBlend();
 	}
 
 	private float scale = 1;

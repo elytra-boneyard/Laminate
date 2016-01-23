@@ -1,6 +1,6 @@
 package aesen.laminate.screen;
 
-import com.unascribed.laminate.internal.LaminateMod;
+import com.unascribed.laminate.internal.LaminateInternal;
 
 import aesen.laminate.InputHook;
 import aesen.laminate.component.Component;
@@ -38,7 +38,7 @@ public class Screen extends Component implements InputHook {
 	
 	public GuiScreen getMirror() {
 		if (mirror == null) {
-			mirror = LaminateMod.createMirror(this);
+			mirror = LaminateInternal.createMirror(this);
 		}
 		return mirror;
 	}

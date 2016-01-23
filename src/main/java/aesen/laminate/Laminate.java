@@ -3,7 +3,7 @@ package aesen.laminate;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.unascribed.laminate.internal.LaminateMod;
+import com.unascribed.laminate.internal.LaminateInternal;
 
 import aesen.laminate.screen.Screen;
 import net.minecraft.client.Minecraft;
@@ -99,7 +99,7 @@ public class Laminate {
 	 * @return the currently displaying Screen
 	 */
 	public static Screen getCurrentScreen() {
-		return LaminateMod.unwrapMirror(Minecraft.getMinecraft().currentScreen);
+		return LaminateInternal.unwrapMirror(Minecraft.getMinecraft().currentScreen);
 	}
 	
 	

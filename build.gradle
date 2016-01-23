@@ -30,7 +30,6 @@ targetCompatibility = 1.8
 
 retrolambda {
 	javaVersion JavaVersion.VERSION_1_6
-	defaultMethods true
 }
 
 repositories {
@@ -43,10 +42,18 @@ repositories {
 
 configurations {
 	deploy
+	shade
+	compile.extendsFrom shade
 }
 
 dependencies {
 	deploy "org.apache.maven.wagon:wagon-ssh:2.10"
+	
+	shade files (
+		'common/build/libs/LaminateCommon.jar',
+		'version-specific/1.7.10/build/libs/LaminateOneSeven.jar',
+		'version-specific/1.8/build/libs/LaminateOneEight.jar'
+	)
 }
 
 jar {
