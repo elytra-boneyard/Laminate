@@ -1,11 +1,20 @@
 package aesen.laminate;
 
+import java.util.List;
+
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.item.ItemStack;
 
+/**
+ * Static versions of Gui and GuiScreen utility methods.
+ * @author aesen
+ *
+ */
 public class Rendering {
-	private static class DummyGui extends Gui {
+	private static class DummyGui extends GuiScreen {
 		@Override
 		public void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
 			super.drawGradientRect(left, top, right, bottom, startColor, endColor);
@@ -17,6 +26,18 @@ public class Rendering {
 		@Override
 		public void drawVerticalLine(int x, int startY, int endY, int color) {
 			super.drawVerticalLine(x, startY, endY, color);
+		}
+		@Override
+		public void drawHoveringText(List<String> textLines, int x, int y) {
+			super.drawHoveringText(textLines, x, y);
+		}
+		@Override
+		public void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
+			super.drawHoveringText(textLines, x, y, font);
+		}
+		@Override
+		public void renderToolTip(ItemStack stack, int x, int y) {
+			super.renderToolTip(stack, x, y);
 		}
 	}
 
@@ -55,6 +76,32 @@ public class Rendering {
 	public static void drawVerticalLine(int x, int startY, int endY, int color) {
 		GUI.drawVerticalLine(x, startY, endY, color);
 	}
+	
+	public static void drawScaledCustomSizeModalRect(int x, int y, float u, float v, int uWidth, int vHeight, int width, int height, float tileWidth, float tileHeight) {
+		Gui.drawScaledCustomSizeModalRect(x, y, u, v, uWidth, vHeight, width, height, tileWidth, tileHeight);
+	}
+	
+	public static void drawModalRectWithCustomSizedTexture(int x, int y, float u, float v, int width, int height, float textureWidth, float textureHeight) {
+		Gui.drawModalRectWithCustomSizedTexture(x, y, u, v, width, height, textureWidth, textureHeight);
+	}
+	
+	public static void drawRect(int left, int top, int right, int bottom, int color) {
+		Gui.drawRect(left, top, right, bottom, color);
+	}
+	
+	public static void drawHoveringText(List<String> textLines, int x, int y) {
+		GUI.drawHoveringText(textLines, x, y);
+	}
+	
+	public static void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
+		GUI.drawHoveringText(textLines, x, y, font);
+	}
+	
+	public static void renderToolTip(ItemStack stack, int x, int y) {
+		GUI.renderToolTip(stack, x, y);
+	}
+	
+	
 	
 	
 	private Rendering() {}
