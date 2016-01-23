@@ -1,5 +1,19 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'me.tatarka:gradle-retrolambda:3.2.0'
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply plugin: 'me.tatarka.retrolambda'
 
 group = "com.unascribed"
 archivesBaseName = "LaminateCommon"
