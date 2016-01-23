@@ -1,5 +1,5 @@
 #!/bin/bash -ex
-base=`pwd`
+pwd=`pwd`
 cd common
 $pwd/gradlew setupDecompWorkspace eclipse
 cd ../version-specific/1.7.10

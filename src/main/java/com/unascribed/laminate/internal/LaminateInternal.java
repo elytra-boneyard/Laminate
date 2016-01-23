@@ -1,4 +1,4 @@
-package com.unascribed.laminate.internal;
+	package com.unascribed.laminate.internal;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,35 +33,28 @@ public class LaminateInternal implements LaminateCore {
 	public static Logger log;
 	
 	@Override
-	public void preInit() {
+	public void preInit(String mcVersion) {
 		log = LogManager.getLogger("Laminate");
-		try {
-			Class.forName("net.minecraft.client.renderer.GlStateManager");
-			log.info("Using GlStateManager (>= 1.8)");
-			gl = new StateManagerGLAccess();
-		} catch (Exception ex) {
-			log.info("Using direct GL (< 1.8)");
-			gl = new DirectGLAccess();
-		}
-		try {
-			Class<?> tessClazz = Class.forName("net.minecraft.client.renderer.Tessellator");
-			try {
-				tessClazz.getMethod("addVertex", double.class, double.class, double.class);
-				log.info("Using OldTessellatorAccess (<= 1.7)");
+		switch (mcVersion) {
+			case "1.7.2":
+			case "1.7.10":
 				tess = new OldTessellatorAccess();
-			} catch (Exception ex) {
-				Class<?> wrClazz = Class.forName("net.minecraft.client.renderer.WorldRenderer");
-				try {
-					wrClazz.getMethod("addVertex", double.class, double.class, double.class);
-					log.info("Using SplitTessellatorAccess (1.8)");
-					tess = new SplitTessellatorAccess();
-				} catch (Exception e) {
-					log.info("Using VertexBuilderTessellatorAccess (>= 1.8.8)");
-					tess = new VertexBuilderTessellatorAccess();
-				}
-			}
-		} catch (Exception ex) {
-			log.error("Can't find any tessellator!");
+				gl = new DirectGLAccess();
+				log.info("Running on "+mcVersion+", using old tessellator and direct GL");
+				break;
+			case "1.8":
+				tess = new SplitTessellatorAccess();
+				gl = new StateManagerGLAccess();
+				log.info("Running on "+mcVersion+", using split tessellator and managed GL");
+				break;
+			case "1.8.8":
+			case "1.8.9":
+				tess = new VertexBuilderTessellatorAccess();
+				gl = new StateManagerGLAccess();
+				log.info("Running on "+mcVersion+", using vertex builder tessellator and managed GL");
+				break;
+			default:
+				throw new RuntimeException("Laminate cannot run on Minecraft version "+mcVersion);
 		}
 	}
 	

@@ -2,6 +2,7 @@ package com.unascribed.laminate.internal;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,7 +16,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 		name="Laminate",
 		acceptableRemoteVersions="*",
 		clientSideOnly=true,
-		useMetadata=true,
 		acceptedMinecraftVersions="1.8,1.8.8,1.8.9"
 		)
 public class LaminateModOneEight {
@@ -24,7 +24,7 @@ public class LaminateModOneEight {
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e) throws Exception {
 		core = (LaminateCore)Class.forName("com.unascribed.laminate.internal.LaminateInternal").newInstance();
-		core.preInit();
+		core.preInit(Loader.instance().getMCVersionString().substring("Minecraft ".length()));
 	}
 	
 	@EventHandler

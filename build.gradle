@@ -62,6 +62,11 @@ jar {
 			'FMLAT': 'laminate_at.cfg'
 		)
 	}
+	configurations.shade.each { dep ->
+		from(project.zipTree(dep)){
+			exclude 'META-INF', 'META-INF/**'
+		}
+	}
 }
 
 minecraft {

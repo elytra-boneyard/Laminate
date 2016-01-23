@@ -1,6 +1,7 @@
 package com.unascribed.laminate.internal;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -16,7 +17,6 @@ import net.minecraftforge.common.MinecraftForge;
 		modid="laminate",
 		name="Laminate",
 		acceptableRemoteVersions="*",
-		useMetadata=true,
 		acceptedMinecraftVersions="1.7.2,1.7.10"
 		)
 public class LaminateModOneSeven {
@@ -26,7 +26,7 @@ public class LaminateModOneSeven {
 	public void onPreInit(FMLPreInitializationEvent e) throws Exception {
 		if (e.getSide() == Side.CLIENT) {
 			core = (LaminateCore)Class.forName("com.unascribed.laminate.internal.LaminateInternal").newInstance();
-			core.preInit();
+			core.preInit(Loader.instance().getMCVersionString().substring("Minecraft ".length()));
 		} else {
 			e.getModLog().warn("Cowardly refusing to run on side {}", e.getSide());
 		}
