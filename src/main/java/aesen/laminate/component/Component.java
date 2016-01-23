@@ -8,5 +8,6 @@ import aesen.laminate.Rectangle;
  *
  */
 public class Component extends Rectangle {
-
+	
+	
 }

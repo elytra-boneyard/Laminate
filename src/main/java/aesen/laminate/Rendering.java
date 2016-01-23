@@ -10,7 +10,6 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Static versions of Gui and GuiScreen utility methods.
- * @author aesen
  *
  */
 public class Rendering {

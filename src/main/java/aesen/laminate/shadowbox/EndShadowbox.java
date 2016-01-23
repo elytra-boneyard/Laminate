@@ -4,9 +4,10 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.unascribed.laminate.internal.LaminateMod;
+
 import aesen.laminate.Laminate;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -40,7 +41,7 @@ public class EndShadowbox extends Shadowbox {
 
 		float div = (float) width / height;
 
-		GlStateManager.disableLighting();
+		LaminateMod.gl().disableLighting();
 		consistentRandom.setSeed(31100L);
 
 		for (int layer = 0; layer < 16; ++layer) {
@@ -50,36 +51,36 @@ public class EndShadowbox extends Shadowbox {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
 				scale = 1.125F;
-				GlStateManager.enableBlend();
-				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				LaminateMod.gl().enableBlend();
+				LaminateMod.gl().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortal);
 
 				if (layer == 1) {
-					GlStateManager.enableBlend();
-					GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+					LaminateMod.gl().enableBlend();
+					LaminateMod.gl().blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 					scale = 0.2F;
 				}
 			}
 
-			GlStateManager.matrixMode(GL11.GL_TEXTURE);
-			GlStateManager.pushMatrix();
-			GlStateManager.loadIdentity();
+			LaminateMod.gl().matrixMode(GL11.GL_TEXTURE);
+			LaminateMod.gl().pushMatrix();
+			LaminateMod.gl().loadIdentity();
 
-			GlStateManager.translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
-			GlStateManager.scale(scale, scale, 1F);
-			GlStateManager.scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
-			GlStateManager.translate(0.5F, 0.5F, 0F);
-			GlStateManager.rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
+			LaminateMod.gl().translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
+			LaminateMod.gl().scale(scale, scale, 1F);
+			LaminateMod.gl().scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
+			LaminateMod.gl().translate(0.5F, 0.5F, 0F);
+			LaminateMod.gl().rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
 
-			GlStateManager.translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
-			GlStateManager.translate(0.5F * div, 0.5F, 0F);
-			GlStateManager.scale(4F * portalScale, 4F * portalScale, 1F);
-			GlStateManager.translate(-0.5F * div, -0.5F, 0F);
+			LaminateMod.gl().translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
+			LaminateMod.gl().translate(0.5F * div, 0.5F, 0F);
+			LaminateMod.gl().scale(4F * portalScale, 4F * portalScale, 1F);
+			LaminateMod.gl().translate(-0.5F * div, -0.5F, 0F);
 
-			GlStateManager.scale(div, 1F, 1F);
+			LaminateMod.gl().scale(div, 1F, 1F);
 
 			Tessellator tessellator = Tessellator.getInstance();
 			WorldRenderer wr = tessellator.getWorldRenderer();
@@ -100,11 +101,11 @@ public class EndShadowbox extends Shadowbox {
 			wr.pos(width, 0, 0D).tex(1D, 0D).color(r, g, b, 1).endVertex();
 			wr.pos(0, 0, 0D).tex(0D, 0D).color(r, g, b, 1).endVertex();
 			tessellator.draw();
-			GlStateManager.popMatrix();
-			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+			LaminateMod.gl().popMatrix();
+			LaminateMod.gl().matrixMode(GL11.GL_MODELVIEW);
 		}
 
-		GlStateManager.disableBlend();
+		LaminateMod.gl().disableBlend();
 	}
 
 	private float scale = 1;

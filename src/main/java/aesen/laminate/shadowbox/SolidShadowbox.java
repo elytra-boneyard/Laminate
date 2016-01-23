@@ -1,7 +1,7 @@
 package aesen.laminate.shadowbox;
 
 import aesen.laminate.Laminate;
-import net.minecraft.client.gui.Gui;
+import aesen.laminate.Rendering;
 
 /*
  * A shadowbox consisting of one solid color.
@@ -41,7 +41,7 @@ public class SolidShadowbox extends Shadowbox {
 	
 	@Override
 	public void render(float partialTicks) {
-		Gui.drawRect(0, 0, Laminate.getWidth(), Laminate.getHeight(), color | 0xFF000000);
+		Rendering.drawRect(0, 0, Laminate.getWidth(), Laminate.getHeight(), color | 0xFF000000);
 	}
 
 }

@@ -1,6 +1,12 @@
 package com.unascribed.laminate.internal;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+
+import com.unascribed.laminate.internal.gl.DirectGLAccess;
+import com.unascribed.laminate.internal.gl.GLAccess;
+import com.unascribed.laminate.internal.gl.StateManagerGLAccess;
 
 import aesen.laminate.Laminate;
 import aesen.laminate.screen.Screen;
@@ -12,9 +18,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
@@ -34,9 +42,26 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 	)
 public class LaminateMod {
 	public static int globalPanoramaTimer;
-
+	private static GLAccess gl;
+	public static Logger log;
+	
+	@EventHandler
+	private void onPreInit(FMLPreInitializationEvent e) {
+		log = LogManager.getLogger("Laminate");
+		try {
+			Class.forName("net.minecraft.client.renderer.GlStateManager");
+			log.info("Using GlStateManager");
+			gl = new StateManagerGLAccess();
+		} catch (Exception ex) {
+			log.info("Using direct GL");
+			gl = new DirectGLAccess();
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	private void onInit(FMLInitializationEvent e) {
+		FMLCommonHandler.instance().bus().register(this); // for 1.7.10 compat
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 	
@@ -80,5 +105,9 @@ public class LaminateMod {
 			return ((Mirror)screen).getScreen();
 		}
 		return null;
+	}
+	
+	public static GLAccess gl() {
+		return gl;
 	}
 }

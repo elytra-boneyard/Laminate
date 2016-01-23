@@ -1,9 +1,10 @@
 package aesen.laminate.shadowbox;
 
+import com.unascribed.laminate.internal.LaminateMod;
+
 import aesen.laminate.Laminate;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -17,7 +18,8 @@ public class TextureShadowbox extends Shadowbox {
 	private ResourceLocation texture;
 	
 	/**
-	 * Creates a TextureShadowbox with the default gui background texture.
+	 * Creates a TextureShadowbox with the default gui background texture,
+	 * which is dirt on the default resource pack.
 	 */
 	public TextureShadowbox() {
 		this(Gui.optionsBackground);
@@ -44,13 +46,13 @@ public class TextureShadowbox extends Shadowbox {
 		int width = Laminate.getWidth();
 		int height = Laminate.getHeight();
 		
-		GlStateManager.disableLighting();
-		GlStateManager.disableFog();
+		LaminateMod.gl().disableLighting();
+		LaminateMod.gl().disableFog();
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer wr = tessellator.getWorldRenderer();
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		LaminateMod.gl().color(1.0F, 1.0F, 1.0F, 1.0F);
 		wr.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
 		wr.pos(0, height, 0).tex(0, (height / 32f)).color(64, 64, 64, 255).endVertex();
 		wr.pos(width, height, 0).tex((width / 32f), (height / 32f)).color(64, 64, 64, 255).endVertex();
