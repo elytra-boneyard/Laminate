@@ -1,4 +1,4 @@
-	package com.unascribed.laminate.internal;
+package com.unascribed.laminate.internal;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
