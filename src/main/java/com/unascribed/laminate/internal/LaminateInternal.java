@@ -24,7 +24,7 @@ import net.minecraft.client.gui.GuiScreen;
 
 /**
  * <b>Internal class. Do not use.</b>
- *
+ * 
  */
 public class LaminateInternal implements LaminateCore {
 	public static int globalPanoramaTimer;
@@ -44,14 +44,14 @@ public class LaminateInternal implements LaminateCore {
 				break;
 			case "1.8":
 				tess = new SplitTessellatorAccess();
-				gl = new StateManagerGLAccess();
-				log.info("Running on "+mcVersion+", using split tessellator and managed GL");
+				gl = new StateManagerGLAccess(true);
+				log.info("Running on "+mcVersion+", using split tessellator and managed GL with emulated pushAttrib/popAttrib");
 				break;
 			case "1.8.8":
 			case "1.8.9":
 				tess = new VertexBuilderTessellatorAccess();
-				gl = new StateManagerGLAccess();
-				log.info("Running on "+mcVersion+", using vertex builder tessellator and managed GL");
+				gl = new StateManagerGLAccess(true);
+				log.info("Running on "+mcVersion+", using vertex builder tessellator and managed GL with emulated pushAttrib/popAttrib");
 				break;
 			default:
 				throw new RuntimeException("Laminate cannot run on Minecraft version "+mcVersion);
