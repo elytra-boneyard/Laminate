@@ -1,26 +1,66 @@
 # Laminate
 An awesome GUI framework for Minecraft Forge - a rewrite of Glass Pane
 
-## Goals
- - Make it easy to create GUIs that can act as replacements, overlays, etc
- - Be fast (would display lists and/or VBOs be overkill?)
- - Be pretty
- - Be accessible
- - Be customizable
- - Make the codebase work across versions by wrapping all version-specific calls in an abstraction layer (would this also make it work across runtimes?)
- - Fit in with vanilla GuiScreens
- - Port features (like focus control) to GuiScreen optionally for a consistent experience
 
-## Changes to make from Glass Pane
- - Stop prefixing everything with "Pane"
- - Don't use Lombok
- - Automatically prevent loading on the server-side
- - Allow serialization and deserialization of GUIs
- - Don't use a custom event system
- - Cut back on the preemptive micro-optimizations
- - Make the source code less than 50% comments
+**Not yet ready for use.**
 
-## Wishlist
- - UI designer via the serialized format
- - Allow server to send GUIs via the serialized format
- - Easy inventory GUI with dynamically-rendered slots
+## TODO
+- [x] Shadowboxes
+  - [x] Solid
+  - [x] Texture
+  - [x] Panorama
+  - [x] End
+- [ ] Component rendering (*in progress*)
+- [ ] Component implementations
+  - [ ] Box
+  - [ ] Panel
+  - [ ] ScrollPanel
+  - [ ] Label
+  - [ ] Image
+  - [ ] Button
+  - [ ] CheckBox
+  - [ ] RadioButton
+  - [ ] Slider
+  - [ ] ProgressBar
+  - [ ] ProgressRing
+  - [ ] TextField
+- [x] Multiple version support
+  - [x] One-jar
+  - [x] 1.8.9
+  - [x] 1.8.8
+  - [x] 1.8
+  - [x] 1.7.10
+  - [x] 1.7.2 (*untested*)
+  - [ ] 1.6.4?
+- [ ] Serialized GUI format
+  - [ ] Binary (network)
+  - [ ] JSON
+  - [ ] XML?
+- [ ] Test suite
+- [ ] Pre-made utility screens
+  - [ ] Yes/No dialog
+  - [ ] Okay dialog
+  - [ ] Non-conflicting settings button main menu overlay
+- [ ] Documentation
+  - [ ] Getting Started (high-level overview and explanation of Laminate concepts)
+  - [ ] Explanations of each component
+    - [ ] Box
+    - [ ] Panel
+    - [ ] ScrollPanel
+    - [ ] Label
+    - [ ] Image
+    - [ ] Button
+    - [ ] CheckBox
+    - [ ] RadioButton
+    - [ ] Slider
+    - [ ] ProgressBar
+    - [ ] ProgressRing
+    - [ ] TextField
+  - [ ] Practical examples
+    - [ ] Inventory
+    - [ ] HUD overlay
+    - [ ] Settings button
+- [ ] Wishlist
+  - [ ] UI design tool (either external or in-game)
+  - [ ] Focus control
+  - [ ] Allow the server to send GUIs to the client (ala Spout)
