@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
+import com.google.common.base.Function;
 import com.unascribed.laminate.internal.gl.DirectGLAccess;
 import com.unascribed.laminate.internal.gl.GLAccess;
 import com.unascribed.laminate.internal.gl.StateManagerGLAccess;
@@ -21,6 +22,7 @@ import aesen.laminate.shadowbox.TextureShadowbox;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 /**
  * <b>Internal class. Do not use.</b>
@@ -30,7 +32,10 @@ public class LaminateInternal implements LaminateCore {
 	public static int globalPanoramaTimer;
 	private static GLAccess gl;
 	private static TessellatorAccess tess;
+	private static Function<Minecraft, ScaledResolution> scaledResolutionFactory;
 	public static Logger log;
+	
+	private static ScaledResolution cachedResolution;
 	
 	@Override
 	public void preInit(String mcVersion) {
@@ -40,22 +45,30 @@ public class LaminateInternal implements LaminateCore {
 			case "1.7.10":
 				tess = new OldTessellatorAccess();
 				gl = new DirectGLAccess();
+				scaledResolutionFactory = OneEight.SCALED_RESOLUTION_FACTORY;
 				log.info("Running on "+mcVersion+", using old tessellator and direct GL");
 				break;
 			case "1.8":
 				tess = new SplitTessellatorAccess();
 				gl = new StateManagerGLAccess(true);
+				scaledResolutionFactory = OneEight.SCALED_RESOLUTION_FACTORY;
 				log.info("Running on "+mcVersion+", using split tessellator and managed GL with emulated pushAttrib/popAttrib");
 				break;
 			case "1.8.8":
 			case "1.8.9":
 				tess = new VertexBuilderTessellatorAccess();
 				gl = new StateManagerGLAccess(true);
+				scaledResolutionFactory = OneEightNine.SCALED_RESOLUTION_FACTORY;
 				log.info("Running on "+mcVersion+", using vertex builder tessellator and managed GL with emulated pushAttrib/popAttrib");
 				break;
 			default:
 				throw new RuntimeException("Laminate cannot run on Minecraft version "+mcVersion);
 		}
+	}
+	
+	@Override
+	public void frame() {
+		cachedResolution = null;
 	}
 	
 	@Override
@@ -104,5 +117,12 @@ public class LaminateInternal implements LaminateCore {
 	
 	public static TessellatorAccess tess() {
 		return tess;
+	}
+
+	public static ScaledResolution createScaledResolution() {
+		if (cachedResolution == null) {
+			cachedResolution = scaledResolutionFactory.apply(Minecraft.getMinecraft());
+		}
+		return cachedResolution;
 	}
 }

@@ -8,7 +8,6 @@ import com.unascribed.laminate.internal.LaminateInternal;
 import aesen.laminate.screen.Screen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 
 /**
  * Main entry point for modifying the current GUI state.
@@ -111,7 +110,7 @@ public class Laminate {
 		if (Minecraft.getMinecraft().currentScreen != null) {
 			return Minecraft.getMinecraft().currentScreen.width;
 		}
-		return new ScaledResolution(Minecraft.getMinecraft()).getScaledWidth();
+		return LaminateInternal.createScaledResolution().getScaledWidth();
 	}
 	
 	/**
@@ -121,7 +120,7 @@ public class Laminate {
 		if (Minecraft.getMinecraft().currentScreen != null) {
 			return Minecraft.getMinecraft().currentScreen.height;
 		}
-		return new ScaledResolution(Minecraft.getMinecraft()).getScaledHeight();
+		return LaminateInternal.createScaledResolution().getScaledHeight();
 	}
 	
 	

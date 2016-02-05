@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 @Mod(
 		modid="laminate",
@@ -36,5 +37,12 @@ public class LaminateModOneEight {
 	@SubscribeEvent
 	public void onTick(ClientTickEvent e) {
 		core.tick(e.phase == Phase.START);
+	}
+	
+	@SubscribeEvent
+	public void onFrame(RenderTickEvent e) {
+		if (e.phase == Phase.START) {
+			core.frame();
+		}
 	}
 }

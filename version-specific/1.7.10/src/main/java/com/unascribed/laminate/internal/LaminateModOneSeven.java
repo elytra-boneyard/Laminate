@@ -9,6 +9,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
+import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -43,5 +44,12 @@ public class LaminateModOneSeven {
 	@SubscribeEvent
 	public void onTick(ClientTickEvent e) {
 		core.tick(e.phase == Phase.START);
+	}
+	
+	@SubscribeEvent
+	public void onFrame(RenderTickEvent e) {
+		if (e.phase == Phase.START) {
+			core.frame();
+		}
 	}
 }

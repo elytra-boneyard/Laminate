@@ -3,6 +3,7 @@ package com.unascribed.laminate.internal.gl;
 import java.nio.FloatBuffer;
 
 public interface GLAccess {
+	// from GlStateManager
 	void pushAttrib();
 	void popAttrib();
 	void disableAlpha();
@@ -69,4 +70,5 @@ public interface GLAccess {
 	void color(float colorRed, float colorGreen, float colorBlue);
 	void resetColor();
 	void callList(int list);
+	
 }
