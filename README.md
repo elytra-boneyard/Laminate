@@ -10,9 +10,9 @@ An awesome GUI framework for Minecraft Forge - a rewrite of Glass Pane
   - [x] Texture
   - [x] Panorama
   - [x] End
-- [ ] Component rendering (*in progress*)
-- [ ] Component implementations
-  - [ ] Box
+- [x] Component rendering
+- [x] Component implementations (*in progress*)
+  - [x] Box
   - [ ] Panel
   - [ ] ScrollPanel
   - [ ] Label
