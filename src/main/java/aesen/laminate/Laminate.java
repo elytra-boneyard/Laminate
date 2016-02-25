@@ -1,7 +1,10 @@
 package aesen.laminate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.github.gfx.util.WeakIdentityHashMap;
 import com.google.common.collect.Lists;
 import com.unascribed.laminate.internal.LaminateInternal;
 
@@ -15,9 +18,19 @@ import net.minecraft.client.gui.GuiScreen;
  * all other such things.
  *
  */
-public class Laminate {
+public final class Laminate {
 	private static List<InputHook> inputHooks = Lists.newArrayList();
-	private static List<Screen> overlays = Lists.newArrayList();
+	private static Map<GuiScreen, List<Screen>> overlays = new WeakIdentityHashMap<>();
+	
+	private static List<Screen> getCurrentOverlayList() {
+		GuiScreen currentScreen = Minecraft.getMinecraft().currentScreen;
+		List<Screen> li = overlays.get(currentScreen);
+		if (li == null) {
+			li = new ArrayList<>();
+			overlays.put(currentScreen, li);
+		}
+		return li;
+	}
 	
 	/**
 	 * Adds an input hook, which is essentially a lightweight
@@ -47,7 +60,7 @@ public class Laminate {
 	 * @param screen the screen to add to the overlay stack
 	 */
 	public static void addOverlayToTop(Screen screen) {
-		overlays.add(screen);
+		getCurrentOverlayList().add(screen);
 	}
 	
 	/**
@@ -56,7 +69,7 @@ public class Laminate {
 	 * @param screen the screen to add to the overlay stack
 	 */
 	public static void addOverlayToBottom(Screen screen) {
-		overlays.add(0, screen);
+		getCurrentOverlayList().add(0, screen);
 	}
 	
 	/**
@@ -66,7 +79,7 @@ public class Laminate {
 	 * @param screen the screen to remove from the overlay stack
 	 */
 	public static void removeOverlay(Screen screen) {
-		overlays.remove(screen);
+		getCurrentOverlayList().remove(screen);
 	}
 	
 	

@@ -54,6 +54,7 @@ dependencies {
 		'version-specific/1.7.10/build/libs/LaminateOneSeven.jar',
 		'version-specific/1.8/build/libs/LaminateOneEight.jar'
 	)
+	shade 'com.github.gfx.util:weak-identity-hash-map:2.0.1'
 }
 
 jar {
