@@ -2,6 +2,7 @@ package aesen.laminate.shadowbox;
 
 import org.lwjgl.opengl.GL11;
 
+import com.unascribed.laminate.internal.GL;
 import com.unascribed.laminate.internal.LaminateInternal;
 import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
 
@@ -46,16 +47,16 @@ public class TextureShadowbox extends Shadowbox {
 		int width = Laminate.getWidth();
 		int height = Laminate.getHeight();
 		
-		LaminateInternal.gl().disableLighting();
-		LaminateInternal.gl().disableFog();
+		GL.disableLighting();
+		GL.disableFog();
 		TessellatorAccess tess = LaminateInternal.tess();
 		
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
-		LaminateInternal.gl().color(1.0F, 1.0F, 1.0F, 1.0F);
+		GL.color(1.0F, 1.0F, 1.0F, 1.0F);
 		tess.begin(GL11.GL_QUADS, TessellatorAccess.Format.POSITION_TEX_COLOR);
-		tess.pos(0, height, 0).tex(0, (height / 32f)).color(64, 64, 64, 255).endVertex();
-		tess.pos(width, height, 0).tex((width / 32f), (height / 32f)).color(64, 64, 64, 255).endVertex();
-		tess.pos(width, 0, 0).tex((width / 32f), 0).color(64, 64, 64, 255).endVertex();
+		tess.pos(0, height, 0).tex(0, height / 32f).color(64, 64, 64, 255).endVertex();
+		tess.pos(width, height, 0).tex(width / 32f, height / 32f).color(64, 64, 64, 255).endVertex();
+		tess.pos(width, 0, 0).tex(width / 32f, 0).color(64, 64, 64, 255).endVertex();
 		tess.pos(0, 0, 0).tex(0, 0).color(64, 64, 64, 255).endVertex();
 		tess.draw();
 	}

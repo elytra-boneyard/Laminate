@@ -27,7 +27,7 @@ public class SolidShadowbox extends Shadowbox {
 		int packed = 0;
 		packed |= (((int)(r*255))&0xFF)<<16;
 		packed |= (((int)(g*255))&0xFF)<<8;
-		packed |= (((int)(b*255))&0xFF);
+		packed |= ((int)(b*255))&0xFF;
 		this.color = packed;
 	}
 	

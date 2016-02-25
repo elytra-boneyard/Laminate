@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
+import com.unascribed.laminate.internal.GL;
 import com.unascribed.laminate.internal.LaminateInternal;
 import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
 
@@ -47,14 +48,15 @@ public class PanoramaShadowbox extends Shadowbox {
 		this.useGlobalPanoramaTimer = useGlobalPanoramaTimer;
 	}
 	
-	public boolean getUseGlobalPanoramaTimer() {
+	public boolean useGlobalPanoramaTimer() {
 		return useGlobalPanoramaTimer;
 	}
 	
-	public void setPanoramaPaths(ResourceLocation[] panoramaPaths) {
-		if (panoramaPaths == null || panoramaPaths.length != 6)
+	public void setPanoramaPaths(ResourceLocation... panoramaPaths) {
+		if (panoramaPaths == null || panoramaPaths.length != 6) {
 			throw new IllegalArgumentException("Panorama paths must not be null and must have exactly 6 entries");
-		this.panoramaPaths = panoramaPaths;
+		}
+		this.panoramaPaths = panoramaPaths.clone();
 	}
 	
 	public ResourceLocation[] getPanoramaPaths() {
@@ -63,9 +65,9 @@ public class PanoramaShadowbox extends Shadowbox {
 	
 	@Override
 	public void render(float partialTicks) {
-		LaminateInternal.gl().disableAlpha();
-		renderSkybox(0, 0, partialTicks);
-		LaminateInternal.gl().enableAlpha();
+		GL.disableAlpha();
+		renderSkybox(partialTicks);
+		GL.enableAlpha();
 		int width = Laminate.getWidth();
 		int height = Laminate.getHeight();
 		Rendering.drawGradientRect(0, 0, width, height, 0x80FFFFFF, 0x00FFFFFF);
@@ -82,6 +84,7 @@ public class PanoramaShadowbox extends Shadowbox {
 	@Override
 	protected void finalize() throws Throwable {
 		viewportTexture.deleteGlTexture();
+		super.finalize();
 	}
 
 	
@@ -105,57 +108,57 @@ public class PanoramaShadowbox extends Shadowbox {
 	/**
 	 * Draws the main menu panorama
 	 */
-	private void drawPanorama(int p_73970_1_, int p_73970_2_, float p_73970_3_) {
+	private void drawPanorama(float partialTicks) {
 		int panoramaTimer = (useGlobalPanoramaTimer ? LaminateInternal.globalPanoramaTimer : this.panoramaTimer);
 		
 		TessellatorAccess tess = LaminateInternal.tess();
-		LaminateInternal.gl().matrixMode(5889);
-		LaminateInternal.gl().pushMatrix();
-		LaminateInternal.gl().loadIdentity();
+		GL.matrixMode(5889);
+		GL.pushMatrix();
+		GL.loadIdentity();
 		Project.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
-		LaminateInternal.gl().matrixMode(5888);
-		LaminateInternal.gl().pushMatrix();
-		LaminateInternal.gl().loadIdentity();
-		LaminateInternal.gl().color(1.0F, 1.0F, 1.0F, 1.0F);
-		LaminateInternal.gl().rotate(180.0F, 1.0F, 0.0F, 0.0F);
-		LaminateInternal.gl().rotate(90.0F, 0.0F, 0.0F, 1.0F);
-		LaminateInternal.gl().enableBlend();
-		LaminateInternal.gl().disableAlpha();
-		LaminateInternal.gl().disableCull();
-		LaminateInternal.gl().depthMask(false);
-		LaminateInternal.gl().tryBlendFuncSeparate(770, 771, 1, 0);
+		GL.matrixMode(5888);
+		GL.pushMatrix();
+		GL.loadIdentity();
+		GL.color(1.0F, 1.0F, 1.0F, 1.0F);
+		GL.rotate(180.0F, 1.0F, 0.0F, 0.0F);
+		GL.rotate(90.0F, 0.0F, 0.0F, 1.0F);
+		GL.enableBlend();
+		GL.disableAlpha();
+		GL.disableCull();
+		GL.depthMask(false);
+		GL.tryBlendFuncSeparate(770, 771, 1, 0);
 		int i = 8;
 
 		for (int j = 0; j < i * i; ++j) {
-			LaminateInternal.gl().pushMatrix();
+			GL.pushMatrix();
 			float f = ((float) (j % i) / (float) i - 0.5F) / 64.0F;
 			float f1 = ((float) (j / i) / (float) i - 0.5F) / 64.0F;
 			float f2 = 0.0F;
-			LaminateInternal.gl().translate(f, f1, f2);
-			LaminateInternal.gl().rotate(MathHelper.sin((panoramaTimer + p_73970_3_) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-			LaminateInternal.gl().rotate(-(panoramaTimer + p_73970_3_) * 0.1F, 0.0F, 1.0F, 0.0F);
+			GL.translate(f, f1, f2);
+			GL.rotate(MathHelper.sin((panoramaTimer + partialTicks) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+			GL.rotate(-(panoramaTimer + partialTicks) * 0.1F, 0.0F, 1.0F, 0.0F);
 
 			for (int k = 0; k < 6; ++k) {
-				LaminateInternal.gl().pushMatrix();
+				GL.pushMatrix();
 
 				if (k == 1) {
-					LaminateInternal.gl().rotate(90.0F, 0.0F, 1.0F, 0.0F);
+					GL.rotate(90.0F, 0.0F, 1.0F, 0.0F);
 				}
 
 				if (k == 2) {
-					LaminateInternal.gl().rotate(180.0F, 0.0F, 1.0F, 0.0F);
+					GL.rotate(180.0F, 0.0F, 1.0F, 0.0F);
 				}
 
 				if (k == 3) {
-					LaminateInternal.gl().rotate(-90.0F, 0.0F, 1.0F, 0.0F);
+					GL.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
 				}
 
 				if (k == 4) {
-					LaminateInternal.gl().rotate(90.0F, 1.0F, 0.0F, 0.0F);
+					GL.rotate(90.0F, 1.0F, 0.0F, 0.0F);
 				}
 
 				if (k == 5) {
-					LaminateInternal.gl().rotate(-90.0F, 1.0F, 0.0F, 0.0F);
+					GL.rotate(-90.0F, 1.0F, 0.0F, 0.0F);
 				}
 
 				Minecraft.getMinecraft().getTextureManager().bindTexture(panoramaPaths[k]);
@@ -166,37 +169,37 @@ public class PanoramaShadowbox extends Shadowbox {
 				tess.pos(1.0D, 1.0D, 1.0D).tex(1.0D, 1.0D).color(255, 255, 255, l).endVertex();
 				tess.pos(-1.0D, 1.0D, 1.0D).tex(0.0D, 1.0D).color(255, 255, 255, l).endVertex();
 				tess.draw();
-				LaminateInternal.gl().popMatrix();
+				GL.popMatrix();
 			}
 
-			LaminateInternal.gl().popMatrix();
-			LaminateInternal.gl().colorMask(true, true, true, false);
+			GL.popMatrix();
+			GL.colorMask(true, true, true, false);
 		}
 
-		LaminateInternal.gl().colorMask(true, true, true, true);
-		LaminateInternal.gl().matrixMode(5889);
-		LaminateInternal.gl().popMatrix();
-		LaminateInternal.gl().matrixMode(5888);
-		LaminateInternal.gl().popMatrix();
-		LaminateInternal.gl().depthMask(true);
-		LaminateInternal.gl().enableCull();
-		LaminateInternal.gl().enableDepth();
+		GL.colorMask(true, true, true, true);
+		GL.matrixMode(5889);
+		GL.popMatrix();
+		GL.matrixMode(5888);
+		GL.popMatrix();
+		GL.depthMask(true);
+		GL.enableCull();
+		GL.enableDepth();
 	}
 
 	/**
 	 * Rotate and blurs the skybox view in the main menu
 	 */
-	private void rotateAndBlurSkybox(float p_73968_1_) {
+	private void rotateAndBlurSkybox() {
 		Minecraft.getMinecraft().getTextureManager().bindTexture(this.backgroundTexture);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
 		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
 		GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
-		LaminateInternal.gl().enableBlend();
-		LaminateInternal.gl().tryBlendFuncSeparate(770, 771, 1, 0);
-		LaminateInternal.gl().colorMask(true, true, true, false);
+		GL.enableBlend();
+		GL.tryBlendFuncSeparate(770, 771, 1, 0);
+		GL.colorMask(true, true, true, false);
 		TessellatorAccess tess = LaminateInternal.tess();
 		tess.begin(GL11.GL_QUADS, TessellatorAccess.Format.POSITION_TEX_COLOR);
-		LaminateInternal.gl().disableAlpha();
+		GL.disableAlpha();
 		int i = 3;
 
 		for (int j = 0; j < i; ++j) {
@@ -211,26 +214,26 @@ public class PanoramaShadowbox extends Shadowbox {
 		}
 
 		tess.draw();
-		LaminateInternal.gl().enableAlpha();
-		LaminateInternal.gl().colorMask(true, true, true, true);
+		GL.enableAlpha();
+		GL.colorMask(true, true, true, true);
 	}
 
 	/**
 	 * Renders the skybox in the main menu
 	 */
-	private void renderSkybox(int p_73971_1_, int p_73971_2_, float p_73971_3_) {
+	private void renderSkybox(float partialTicks) {
 		Minecraft.getMinecraft().getFramebuffer().unbindFramebuffer();
-		LaminateInternal.gl().viewport(0, 0, 256, 256);
-		this.drawPanorama(p_73971_1_, p_73971_2_, p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
-		this.rotateAndBlurSkybox(p_73971_3_);
+		GL.viewport(0, 0, 256, 256);
+		this.drawPanorama(partialTicks);
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
+		this.rotateAndBlurSkybox();
 		Minecraft.getMinecraft().getFramebuffer().bindFramebuffer(true);
-		LaminateInternal.gl().viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+		GL.viewport(0, 0, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 		float f = Laminate.getWidth() > Laminate.getHeight() ? 120.0F / Laminate.getWidth() : 120.0F / Laminate.getHeight();
 		float f1 = Laminate.getHeight() * f / 256.0F;
 		float f2 = Laminate.getWidth() * f / 256.0F;

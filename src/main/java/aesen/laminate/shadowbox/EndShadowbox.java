@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.lwjgl.opengl.GL11;
 
+import com.unascribed.laminate.internal.GL;
 import com.unascribed.laminate.internal.LaminateInternal;
 import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
 
@@ -22,7 +23,8 @@ public class EndShadowbox extends Shadowbox {
 	private static final ResourceLocation texPortal = new ResourceLocation("textures/entity/end_portal.png");
 	private static final Random consistentRandom = new Random(31100L);
 
-	public int portalTranslation, prevPortalTranslation;
+	public int portalTranslation;
+	public int prevPortalTranslation;
 
 	public EndShadowbox() {
 		this.prevPortalTranslation = this.portalTranslation = ((int) (Math.random() * 10000));
@@ -39,46 +41,49 @@ public class EndShadowbox extends Shadowbox {
 
 		float div = (float) width / height;
 
-		LaminateInternal.gl().disableLighting();
+		GL.disableLighting();
 		consistentRandom.setSeed(31100L);
 
 		for (int layer = 0; layer < 16; ++layer) {
-			float revLayer = (16 - layer), scale = 0.09625F, colorMultiplier = 1F / (revLayer + 1F), layerMp = 1F + (layer * 0.4F);
+			float revLayer = (16 - layer);
+			float scale = 0.09625F;
+			float colorMultiplier = 1F / (revLayer + 1F);
+			float layerMp = 1F + (layer * 0.4F);
 
 			if (layer == 0) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortalSky);
 				colorMultiplier = 0.1F;
 				scale = 1.125F;
-				LaminateInternal.gl().enableBlend();
-				LaminateInternal.gl().blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				GL.enableBlend();
+				GL.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			}
 
 			if (layer >= 1) {
 				Minecraft.getMinecraft().getTextureManager().bindTexture(texPortal);
 
 				if (layer == 1) {
-					LaminateInternal.gl().enableBlend();
-					LaminateInternal.gl().blendFunc(GL11.GL_ONE, GL11.GL_ONE);
+					GL.enableBlend();
+					GL.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
 					scale = 0.2F;
 				}
 			}
 
-			LaminateInternal.gl().matrixMode(GL11.GL_TEXTURE);
-			LaminateInternal.gl().pushMatrix();
-			LaminateInternal.gl().loadIdentity();
+			GL.matrixMode(GL11.GL_TEXTURE);
+			GL.pushMatrix();
+			GL.loadIdentity();
 
-			LaminateInternal.gl().translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
-			LaminateInternal.gl().scale(scale, scale, 1F);
-			LaminateInternal.gl().scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
-			LaminateInternal.gl().translate(0.5F, 0.5F, 0F);
-			LaminateInternal.gl().rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
+			GL.translate(0F, layerMp * (prevPortalTranslation + (portalTranslation - prevPortalTranslation) * partialTickTime) * 0.00002F, 0F);
+			GL.scale(scale, scale, 1F);
+			GL.scale(1F + revLayer * 0.15F, 1F + revLayer * 0.15F, 1F);
+			GL.translate(0.5F, 0.5F, 0F);
+			GL.rotate((layer * layer * 4321 + layer * 9) * 4F + 180F, 0F, 0F, 1F);
 
-			LaminateInternal.gl().translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
-			LaminateInternal.gl().translate(0.5F * div, 0.5F, 0F);
-			LaminateInternal.gl().scale(4F * portalScale, 4F * portalScale, 1F);
-			LaminateInternal.gl().translate(-0.5F * div, -0.5F, 0F);
+			GL.translate(x * 0.0025F * layerMp, y * 0.0025F * layerMp, 0F);
+			GL.translate(0.5F * div, 0.5F, 0F);
+			GL.scale(4F * portalScale, 4F * portalScale, 1F);
+			GL.translate(-0.5F * div, -0.5F, 0F);
 
-			LaminateInternal.gl().scale(div, 1F, 1F);
+			GL.scale(div, 1F, 1F);
 
 			TessellatorAccess tess = LaminateInternal.tess();
 			tess.begin(GL11.GL_QUADS, TessellatorAccess.Format.POSITION_TEX_COLOR);
@@ -86,8 +91,9 @@ public class EndShadowbox extends Shadowbox {
 			float red = consistentRandom.nextFloat() * 0.5F + 0.1F;
 			float green = consistentRandom.nextFloat() * 0.5F + 0.4F;
 			float blue = consistentRandom.nextFloat() * 0.5F + 0.5F;
-			if (layer == 0)
+			if (layer == 0) {
 				red = green = blue = 1F;
+			}
 
 			float r = red * colorMultiplier;
 			float g = green * colorMultiplier;
@@ -98,11 +104,11 @@ public class EndShadowbox extends Shadowbox {
 			tess.pos(width, 0, 0D).tex(1D, 0D).color(r, g, b, 1).endVertex();
 			tess.pos(0, 0, 0D).tex(0D, 0D).color(r, g, b, 1).endVertex();
 			tess.draw();
-			LaminateInternal.gl().popMatrix();
-			LaminateInternal.gl().matrixMode(GL11.GL_MODELVIEW);
+			GL.popMatrix();
+			GL.matrixMode(GL11.GL_MODELVIEW);
 		}
 
-		LaminateInternal.gl().disableBlend();
+		GL.disableBlend();
 	}
 
 	private float scale = 1;

@@ -12,5 +12,7 @@ package aesen.laminate.shadowbox;
  */
 public abstract class Shadowbox {
 	public abstract void render(float partialTicks);
-	public void tick() {};
+	public void tick() {
+		// not all subclasses will need this method
+	}
 }
