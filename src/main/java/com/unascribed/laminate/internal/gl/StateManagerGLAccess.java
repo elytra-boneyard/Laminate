@@ -42,7 +42,7 @@ public class StateManagerGLAccess implements GLAccess {
 	private static final int        TEXTURE_2D_7_BIT = 0b1000000000000000000000000000000;
 	private static final int              SMOOTH_BIT = 0b10000000000000000000000000000000;
 	
-	private TIntList attribStack = new TIntArrayList();
+	private final TIntList attribStack = new TIntArrayList();
 	private final boolean emulatePushAttrib;
 	
 	public StateManagerGLAccess(boolean emulatePushAttrib) {

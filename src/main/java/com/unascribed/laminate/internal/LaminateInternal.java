@@ -14,6 +14,7 @@ import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
 import com.unascribed.laminate.internal.tessellator.VertexBuilderTessellatorAccess;
 
 import aesen.laminate.Laminate;
+import aesen.laminate.component.Box;
 import aesen.laminate.screen.Screen;
 import aesen.laminate.shadowbox.EndShadowbox;
 import aesen.laminate.shadowbox.PanoramaShadowbox;
@@ -33,13 +34,12 @@ public class LaminateInternal implements LaminateCore {
 	private static GLAccess gl;
 	private static TessellatorAccess tess;
 	private static Function<Minecraft, ScaledResolution> scaledResolutionFactory;
-	public static Logger log;
+	public static final Logger log = LogManager.getLogger("Laminate");
 	
 	private static ScaledResolution cachedResolution;
 	
 	@Override
 	public void preInit(String mcVersion) {
-		log = LogManager.getLogger("Laminate");
 		switch (mcVersion) {
 			case "1.7.2":
 			case "1.7.10":
@@ -89,6 +89,32 @@ public class LaminateInternal implements LaminateCore {
 			} else if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
 				Screen screen = new Screen();
 				screen.setShadowbox(new SolidShadowbox(1, 0.5f, 0));
+				Laminate.display(screen);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
+				Box group = new Box();
+				Screen screen = new Screen() {
+					@Override
+					public void renderForeground(float partialTicks) {
+						super.renderForeground(partialTicks);
+						Minecraft.getMinecraft().fontRendererObj.drawString(Minecraft.getMinecraft().debug.split("fps ")[0]+"fps", width-100, height-36, 0);
+						Minecraft.getMinecraft().fontRendererObj.drawString(group.size()+" components", width-100, height-24, 0);
+					}
+				};
+				group.setX(0);
+				group.setY(0);
+				group.setWidth(99);
+				group.setHeight(800);
+				screen.setShadowbox(new SolidShadowbox(1, 1, 1));
+				for (int i = 0; i < 10000; i++) {
+					Box box = new Box();
+					box.setColor(0xFF000000);
+					box.setWidth(1);
+					box.setHeight(1);
+					box.setX((i*2)%99);
+					box.setY((i*2)/99);
+					group.add(box);
+				}
+				screen.add(group);
 				Laminate.display(screen);
 			}
 		} else {

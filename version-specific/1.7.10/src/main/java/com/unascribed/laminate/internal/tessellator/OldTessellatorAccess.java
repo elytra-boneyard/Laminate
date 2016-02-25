@@ -1,7 +1,5 @@
 package com.unascribed.laminate.internal.tessellator;
 
-import com.unascribed.laminate.internal.tessellator.TessellatorAccess;
-
 import net.minecraft.client.renderer.Tessellator;
 
 public class OldTessellatorAccess implements TessellatorAccess {
@@ -102,6 +100,8 @@ public class OldTessellatorAccess implements TessellatorAccess {
 				tess().setNormal(nx, ny, nz);
 				tess().addVertexWithUV(x, y, z, u, v);
 				break;
+			default:
+				throw new AssertionError("Unknown vertex format "+format);
 		}
 		x = y = z = 0;
 		r = g = b = a = 1;

@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 
 public class VertexBuilderTessellatorAccess implements TessellatorAccess {
-	private Map<Format, VertexFormat> formats = ImmutableMap.<Format, VertexFormat>builder()
+	private final Map<Format, VertexFormat> formats = ImmutableMap.<Format, VertexFormat>builder()
 			.put(Format.POSITION, DefaultVertexFormats.POSITION)
 			.put(Format.POSITION_COLOR, DefaultVertexFormats.POSITION_COLOR)
 			.put(Format.POSITION_NORMAL, DefaultVertexFormats.POSITION_NORMAL)

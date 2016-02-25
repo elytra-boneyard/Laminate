@@ -23,7 +23,7 @@ public class LaminateModOneEight {
 	private LaminateCore core;
 	
 	@EventHandler
-	public void onPreInit(FMLPreInitializationEvent e) throws Exception {
+	public void onPreInit(FMLPreInitializationEvent e) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		core = (LaminateCore)Class.forName("com.unascribed.laminate.internal.LaminateInternal").newInstance();
 		core.preInit(Loader.instance().getMCVersionString().substring("Minecraft ".length()));
 	}

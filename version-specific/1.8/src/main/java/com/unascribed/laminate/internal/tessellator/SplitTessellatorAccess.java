@@ -105,6 +105,8 @@ public class SplitTessellatorAccess implements TessellatorAccess {
 				wr().setNormal(nx, ny, nz);
 				wr().addVertexWithUV(x, y, z, u, v);
 				break;
+			default:
+				throw new AssertionError("Unknown vertex format "+format);
 		}
 		x = y = z = 0;
 		r = g = b = a = 1;

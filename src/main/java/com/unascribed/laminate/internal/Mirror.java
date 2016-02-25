@@ -14,9 +14,16 @@ class Mirror extends GuiScreen {
 	}
 	
 	@Override
+	public void initGui() {
+		super.initGui();
+		screen.setWidth(width);
+		screen.setHeight(height);
+	}
+	
+	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		screen.renderShadowbox(partialTicks);
-		screen.renderComponents(partialTicks);
+		screen.renderForeground(partialTicks);
 	}
 	
 	@Override
