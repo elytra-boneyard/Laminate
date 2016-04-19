@@ -14,16 +14,16 @@ An awesome GUI framework for Minecraft Forge - a rewrite of Glass Pane
 - [x] Component implementations (*in progress*)
   - [x] Box
   - [x] Panel
-  - [ ] ScrollPanel
   - [ ] Label
   - [ ] Image
   - [ ] Button
   - [ ] CheckBox
   - [ ] RadioButton
   - [ ] Slider
+  - [ ] TextField
   - [ ] ProgressBar
   - [ ] ProgressRing
-  - [ ] TextField
+  - [ ] ScrollPanel
 - [x] Multiple version support
   - [x] One-jar
   - [x] 1.8.9
