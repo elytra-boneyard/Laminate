@@ -15,6 +15,7 @@ import com.unascribed.laminate.internal.tessellator.VertexBuilderTessellatorAcce
 
 import aesen.laminate.Laminate;
 import aesen.laminate.component.Box;
+import aesen.laminate.component.Image;
 import aesen.laminate.component.Label;
 import aesen.laminate.component.Panel;
 import aesen.laminate.screen.Screen;
@@ -26,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * <b>Internal class. Do not use.</b>
@@ -159,6 +161,14 @@ public class LaminateInternal implements LaminateCore {
 				label.setY(10);
 				label.setText("Hello");
 				screen.add(label);
+				
+				Image image = new Image();
+				image.setWidth(16);
+				image.setHeight(16);
+				image.setX(10);
+				image.setY(20);
+				image.setSource(new ResourceLocation("minecraft", "textures/items/diamond.png"));
+				screen.add(image);
 				
 				Laminate.display(screen);
 			}

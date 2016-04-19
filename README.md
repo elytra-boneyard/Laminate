@@ -15,7 +15,7 @@ An awesome GUI framework for Minecraft Forge - a rewrite of Glass Pane
   - [x] Box
   - [x] Panel
   - [x] Label
-  - [ ] Image
+  - [x] Image
   - [ ] Button
   - [ ] CheckBox
   - [ ] RadioButton
