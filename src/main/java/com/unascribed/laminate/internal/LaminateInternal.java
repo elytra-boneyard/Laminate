@@ -15,6 +15,7 @@ import com.unascribed.laminate.internal.tessellator.VertexBuilderTessellatorAcce
 
 import aesen.laminate.Laminate;
 import aesen.laminate.component.Box;
+import aesen.laminate.component.Panel;
 import aesen.laminate.screen.Screen;
 import aesen.laminate.shadowbox.EndShadowbox;
 import aesen.laminate.shadowbox.PanoramaShadowbox;
@@ -115,6 +116,40 @@ public class LaminateInternal implements LaminateCore {
 					group.add(box);
 				}
 				screen.add(group);
+				Laminate.display(screen);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_U)) {
+				Screen screen = new Screen();
+				Panel panel = new Panel();
+				panel.setX(10);
+				panel.setY(10);
+				panel.setWidth(200);
+				panel.setHeight(100);
+				panel.setShowBorder(true);
+				panel.setTitle("Hello");
+				Box box = new Box();
+				box.setColor(0xFFFF0000);
+				box.setWidth(3000);
+				box.setHeight(3000);
+				panel.add(box);
+				screen.add(panel);
+				
+				Panel panel2 = new Panel();
+				panel2.setX(220);
+				panel2.setY(10);
+				panel2.setWidth(100);
+				panel2.setHeight(100);
+				panel2.setShowBorder(true);
+				panel2.add(box); // should this be considered a bug?
+				screen.add(panel2);
+				
+				Panel panel3 = new Panel();
+				panel3.setX(10);
+				panel3.setY(120);
+				panel3.setWidth(100);
+				panel3.setHeight(100);
+				panel3.add(box);
+				screen.add(panel3);
+				
 				Laminate.display(screen);
 			}
 		} else {

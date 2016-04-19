@@ -2,6 +2,8 @@ package com.unascribed.laminate.internal;
 
 import java.nio.FloatBuffer;
 
+import aesen.laminate.Colors;
+
 public final class GL {
 
 	public static void pushAttrib() {
@@ -258,6 +260,10 @@ public final class GL {
 
 	public static void color(float colorRed, float colorGreen, float colorBlue) {
 		LaminateInternal.gl().color(colorRed, colorGreen, colorBlue);
+	}
+	
+	public static void color(int packed) {
+		color(Colors.unpackR(packed), Colors.unpackG(packed), Colors.unpackB(packed), Colors.unpackA(packed));
 	}
 
 	public static void resetColor() {

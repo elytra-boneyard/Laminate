@@ -9,7 +9,7 @@ import com.google.common.base.Objects;
  * Specifies a bound on a two-dimensional plane, with a position and size.
  * <p>
  * Most javadocs on this class use an X11-esque geometry format for describing
- * rectangles, in format 
+ * rectangles, in format &lt;width&gt;x&lt;height&gt;[+&lt;x&gt;,&lt;y&gt;].
  *
  */
 public class Rectangle {
