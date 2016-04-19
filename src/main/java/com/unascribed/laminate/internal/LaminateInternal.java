@@ -15,6 +15,7 @@ import com.unascribed.laminate.internal.tessellator.VertexBuilderTessellatorAcce
 
 import aesen.laminate.Laminate;
 import aesen.laminate.component.Box;
+import aesen.laminate.component.Label;
 import aesen.laminate.component.Panel;
 import aesen.laminate.screen.Screen;
 import aesen.laminate.shadowbox.EndShadowbox;
@@ -149,6 +150,15 @@ public class LaminateInternal implements LaminateCore {
 				panel3.setHeight(100);
 				panel3.add(box);
 				screen.add(panel3);
+				
+				Laminate.display(screen);
+			} else if (Keyboard.isKeyDown(Keyboard.KEY_J)) {
+				Screen screen = new Screen();
+				Label label = new Label();
+				label.setX(10);
+				label.setY(10);
+				label.setText("Hello");
+				screen.add(label);
 				
 				Laminate.display(screen);
 			}
